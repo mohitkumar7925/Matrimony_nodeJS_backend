@@ -1,128 +1,194 @@
-import { DataTypes, Sequelize } from "sequelize";
+import { InferAttributes, InferCreationAttributes } from "sequelize";
+import { DataType, Model, Sequelize, Table } from "sequelize-typescript";
+import internal from "stream";
+
 import sequelize from "../config/db";
+// class User_Type extends Model<InferAttributes<User_Type>, InferCreationAttributes<User_Type>> {
+//   declare user_id: number;
+//   declare name: string;
+//   declare gender:string;
+//   declare father_name:string;
+//   declare mother_name:string;
+//   declare mobile:string;
+//   declare email:string;
+//   declare age:number;
+//   declare dob:Date;
+//   declare denomination:string;
+//   declare division:string;
+//   declare mother_tongue:string;
+//   declare marital_status:string;
+//   declare city:string;
+//   declare state:string;
+//   declare country:string;
+//   declare citizenship:string;
+//   declare height:string;
+//   declare education:string;
+//   declare employed_in:string;
+//   declare occupation:string;
+//   declare salary:string;
+//   declare physical_status:string;
+//   declare family_status:string;
+//   declare family_type:string;
+//   declare religious_value:string;
+//   declare about_me:string;
+//   declare profile_pic:string;
+// }
+interface User_Type extends Model<InferAttributes<User_Type>, InferCreationAttributes<User_Type>> {
+     user_id?: number;
+     name: string;
+     gender:string;
+     father_name:string;
+     mother_name:string;
+     mobile:string;
+     email:string;
+     age:number;
+     dob:Date;
+     denomination:string;
+     division:string;
+     mother_tongue:string;
+     marital_status:string;
+     city:string;
+     state:string;
+     country:string;
+     citizenship:string;
+     height:string;
+     education:string;
+     employed_in:string;
+     occupation:string;
+     salary:string;
+     physical_status:string;
+     family_status:string;
+     family_type:string;
+     religious_value:string;
+     about_me:string;
+     profile_pic:string;
+     updatedAt?:Date
+     createdAt?:Date
+  }
 
 
-const User_Table = sequelize.define('Users', {
+
+const User_Table = sequelize.define<User_Type>("Users", {
     user_id: {
         primaryKey: true,
-        type: DataTypes.INTEGER,
+        type: DataType.INTEGER,
         autoIncrement: true,
     },
     name: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataType.STRING,
+        allowNull: false,
     },
     gender: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataType.STRING,
+        allowNull: false,
     },
     father_name: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataType.STRING,
+        allowNull: false,
     },
     mother_name: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataType.STRING,
+        allowNull: false,
     },
     mobile: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataType.STRING,
+        allowNull: false,
     },
     email: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataType.STRING,
+        allowNull: false,
     },
     age: {
-        type: DataTypes.INTEGER,
-        allowNull: false
+        type: DataType.INTEGER,
+        allowNull: false,
     },
     dob: {
-        type: DataTypes.DATE,
-        allowNull: false
+        type: DataType.DATE,
+        allowNull: false,
     },
     denomination: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataType.STRING,
+        allowNull: false,
     },
     division: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataType.STRING,
+        allowNull: false,
     },
     mother_tongue: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataType.STRING,
+        allowNull: false,
     },
     marital_status: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataType.STRING,
+        allowNull: false,
     },
     city: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataType.STRING,
+        allowNull: false,
     },
     state: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataType.STRING,
+        allowNull: false,
     },
     country: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataType.STRING,
+        allowNull: false,
     },
     citizenship: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataType.STRING,
+        allowNull: false,
     },
     height: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataType.STRING,
+        allowNull: false,
     },
     education: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataType.STRING,
+        allowNull: false,
     },
     employed_in: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataType.STRING,
+        allowNull: false,
     },
     occupation: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataType.STRING,
+        allowNull: false,
     },
     salary: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataType.STRING,
+        allowNull: false,
     },
     physical_status: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataType.STRING,
+        allowNull: false,
     },
     family_status: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataType.STRING,
+        allowNull: false,
     },
     family_type: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataType.STRING,
+        allowNull: false,
     },
     religious_value: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataType.STRING,
+        allowNull: false,
     },
     about_me: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataType.STRING,
+        allowNull: false,
     },
     profile_pic: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataType.STRING,
+        allowNull: false,
     },
     createdAt: {
-        type: DataTypes.TIME,
-        allowNull: true
+        type: DataType.TIME,
+        allowNull: true,
     },
     updatedAt: {
-        type: DataTypes.TIME,
-        allowNull: true
-    }
-})
-export default User_Table
+        type: DataType.TIME,
+        allowNull: true,
+    },
+});
+export default User_Table;
