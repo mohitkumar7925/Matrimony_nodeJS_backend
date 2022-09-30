@@ -2,11 +2,11 @@ import express, { NextFunction, Router } from "express";
 import { JWT } from "../utils";
 import User_Table from "../models/User_Table";
 import { Model } from "sequelize";
-
+// Myy changes////
 export var UserController = {
     save_user: async (req: express.Request, res: express.Response, next: NextFunction) => {
         try {
-            
+
             let {
                 name,
                 gender,
