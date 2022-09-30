@@ -6,6 +6,7 @@ import { Model } from "sequelize";
 export var UserController = {
     save_user: async (req: express.Request, res: express.Response, next: NextFunction) => {
         try {
+            
             let {
                 name,
                 gender,
