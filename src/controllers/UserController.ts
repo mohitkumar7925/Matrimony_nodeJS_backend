@@ -1,12 +1,11 @@
 import express, { NextFunction, Router } from "express";
-import { JWT } from "../utils";
+import { JWT } from "../JWT_utils";
 import User_Table from "../models/User_Table";
 import { Model } from "sequelize";
 // Myy changes////
 export var UserController = {
     save_user: async (req: express.Request, res: express.Response, next: NextFunction) => {
         try {
-
             let {
                 name,
                 gender,
@@ -36,7 +35,8 @@ export var UserController = {
                 about_me,
                 profile_pic,
             } = req.body;
-            let insert1 = await User_Table.create({
+            let insert1 = await User_Table.create(
+                {
                     name,
                     gender,
                     father_name,
@@ -66,23 +66,42 @@ export var UserController = {
                     profile_pic,
                 },
                 {
-                    raw:true
+                    raw: true,
                 }
             );
 
             console.log("this is the log ==>> ", insert1);
-            console.log("user id  ==>> ", insert1.user_id);
-                
-            res.send("done");
 
+            let token = await JWT.create_token(insert1.user_id || false);
 
+            res.send({
+                token: token,
+                message: "Successfully registered",
+            }).status(200);
 
         } catch (error) {
+            console.log("error ", error);
+            res.send({
+                message:error
+            }).status(403);
+        }
+    },
 
-            console.log('error ',error);
-            res.send(error)
 
+    get_profile: async (req: express.Request, res: express.Response, next: NextFunction) => {
+        try {
+            
+         
+            res.send({
+                token: 'token',
+                message: "Successfully registered",
+            }).status(200);
 
+        } catch (error) {
+            console.log("error ", error);
+            res.send({
+                message:error
+            }).status(403);
         }
     },
 };
