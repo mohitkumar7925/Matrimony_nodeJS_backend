@@ -33,7 +33,7 @@ import sequelize from "../config/db";
 //   declare about_me:string;
 //   declare profile_pic:string;
 // }
-interface User_Type extends Model<InferAttributes<User_Type>, InferCreationAttributes<User_Type>> {
+export interface User_Type extends Model<InferAttributes<User_Type>, InferCreationAttributes<User_Type>> {
      user_id?: number;
      name: string;
      gender:string;
@@ -41,6 +41,7 @@ interface User_Type extends Model<InferAttributes<User_Type>, InferCreationAttri
      mother_name:string;
      mobile:string;
      email:string;
+     password:string;
      age:number;
      dob:Date;
      denomination:string;
@@ -62,6 +63,7 @@ interface User_Type extends Model<InferAttributes<User_Type>, InferCreationAttri
      religious_value:string;
      about_me:string;
      profile_pic:string;
+     JWT?:string;
      updatedAt?:Date
      createdAt?:Date
   }
@@ -95,6 +97,10 @@ const User_Table = sequelize.define<User_Type>("Users", {
         allowNull: false,
     },
     email: {
+        type: DataType.STRING,
+        allowNull: false,
+    },
+    password: {
         type: DataType.STRING,
         allowNull: false,
     },
@@ -181,6 +187,10 @@ const User_Table = sequelize.define<User_Type>("Users", {
     profile_pic: {
         type: DataType.STRING,
         allowNull: false,
+    },
+    JWT: {
+        type: DataType.STRING,
+        allowNull: true,
     },
     createdAt: {
         type: DataType.TIME,

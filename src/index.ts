@@ -1,13 +1,13 @@
 import express from 'express'
 import {connect} from './config/db'
-
+import UserRoute from './router/UserRoute'
 var app = express();
 app.use(express.json())
 
 
 connect()
 
-var UserRoute = require('./router/UserRoute')
+
 
 app.use('/user', UserRoute)
 
