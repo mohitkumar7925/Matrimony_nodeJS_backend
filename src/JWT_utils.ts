@@ -19,19 +19,22 @@ export const JWT = {
         if (req.headers.authorization) {
             try {
                 let data = jwt.verify(req.headers.authorization, "password") as JwtPayload;
+                console.log('verify token:' , req.body, data );
                 req.body.user_id = data.user_id;
+                console.log( req.body);
+                
                 next();
             } catch (error) {
                 console.log(error);
 
-                res.send({
+                res.status(403).send({
                     message: 'Error while authenticating',
-                }).status(403);
+                });
             }
         } else {
-            res.send({
+            res.status(403).send({
                 message: "Not authorised",
-            }).status(403);
+            })
         }
 
         //     let payload =  jwt.verify(token,'password')

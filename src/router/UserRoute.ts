@@ -24,7 +24,11 @@ router.post('/save' , UserController.save_user)
 router.get('/getprofile',JWT.verify_token , UserController.get_profile)
 router.post('/update' , JWT.verify_token, UserController.update_profile)
 router.get('/all_user' , JWT.verify_token , UserController.get_all_user)
-router.post('/upload_image', JWT.verify_token , uploader.single('image') , UserController.upload_image)
+// router.use('/upload_image' , (req, res, next)=>{
+//     console.log(req.body)
+//     next()
+// })
+router.post('/upload_image',  uploader.single('image') , JWT.verify_token , UserController.upload_image)
 
 export default router;
 

@@ -39,6 +39,7 @@ export var UserController = {
                 religious_value,
                 about_me,
                 profile_pic,
+                FCM
             } = req.body;
             let insert1 = await User_Table.create(
                 {
@@ -70,6 +71,7 @@ export var UserController = {
                     religious_value,
                     about_me,
                     profile_pic,
+                    FCM
                 },
                 {
                     raw: true,
@@ -91,15 +93,15 @@ export var UserController = {
                 }
             );
 
-            res.send({
+            res.status(200).send({
                 token: token,
                 message: "Successfully registered",
-            }).status(200);
+            });
         } catch (error) {
             console.log("error ", error);
-            res.send({
+            res.status(403).send({
                 message: error,
-            }).status(403);
+            });
         }
     },
 
@@ -112,14 +114,14 @@ export var UserController = {
                     user_id: req.body.user_id,
                 },
             });
-            res.send({
+            res.status(200).send({
                 data: user_data,
-            }).status(200);
+            });
         } catch (error) {
             console.log("error ", error);
-            res.send({
+            res.status(403).send({
                 message: error,
-            }).status(403);
+            });
         }
     },
 
@@ -161,6 +163,7 @@ export var UserController = {
                 about_me,
                 profile_pic,
                 JWT,
+                FCM
             } = user;
 
             let isupdated = await User_Table.update(
@@ -194,6 +197,7 @@ export var UserController = {
                     about_me: req.body.about_me || about_me,
                     profile_pic: req.body.profile_pic || profile_pic,
                     JWT: req.body.JWT || JWT,
+                    FCM: req.body.FCM || FCM,
                 },
                 {
                     where: {
@@ -206,18 +210,18 @@ export var UserController = {
 
             if (isupdated[0] > 0) {
                 let updated_user = await User_Table.findOne({ where: { user_id: req.body.user_id } });
-                res.send({
+                res.status(200).send({
                     data: updated_user,
-                }).status(200);
+                });
             } else {
-                res.send({
+                res.status(403).send({
                     data: "Something went wrong",
-                }).status(403);
+                });
             }
         } catch (error) {
-            res.send({
+            res.status(403).send({
                 message: error,
-            }).status(403);
+            });
         }
     },
 
@@ -238,23 +242,24 @@ export var UserController = {
 
             console.log(users_data);
 
-            res.send({
+            res.status(200).send({
                 data: users_data,
-            }).status(200);
+            });
         } catch (error) {
             console.log("error ", error);
-            res.send({
+            res.status(403).send({
                 message: error,
-            }).status(403);
+            });
         }
     },
     upload_image: async (req: express.Request, res: express.Response, next: NextFunction) => {
         try {
             console.log(req.file);
-            console.log(req.body);
+            
             let path = process.env.BASE_URL + "profile_pic/" + req.file?.filename;
-console.log(path);
-
+            console.log(path);
+            console.log('req.body: ' ,  req.body);
+            
             let is_updated = await User_Table.update(
                 {
                     profile_pic: req.file?.filename,
@@ -265,14 +270,16 @@ console.log(path);
                     },
                 }
             );
+            
+            
 
             if (is_updated[0] > 0) {
-                res.send({ message: "Successfully uploaded", url: path }).status(200);
+                res.status(200).send({ message: "Successfully uploaded", url: path });
             } else {
-                res.send({ message: "Something Went Wrong" }).status(403);
+                res.status(403).send({ message: "Something Went Wrong" });
             }
         } catch (error) {
-            res.send({ message: error }).status(403);
+            res.status(403).send({ message: error });
         }
     },
 };

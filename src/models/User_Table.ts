@@ -64,6 +64,7 @@ export interface User_Type extends Model<InferAttributes<User_Type>, InferCreati
      about_me:string;
      profile_pic:string;
      JWT?:string;
+     FCM?:string;
      updatedAt?:Date
      createdAt?:Date
   }
@@ -189,6 +190,10 @@ const User_Table = sequelize.define<User_Type>("Users", {
         allowNull: false,
     },
     JWT: {
+        type: DataType.STRING,
+        allowNull: true,
+    },
+    FCM: {
         type: DataType.STRING,
         allowNull: true,
     },
