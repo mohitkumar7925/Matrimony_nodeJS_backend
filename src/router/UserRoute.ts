@@ -9,11 +9,11 @@ const storage = diskStorage({
         callback(null , 'public/profile_pic')
     },
     filename(req, file, callback) {
-        callback(null, new Date().toDateString() + '-' + file.originalname)
+        callback(null, new Date().toLocaleTimeString() + '-' + file.originalname)
     },
 })
 
-
+console.log(process.env.BASE_URL);
 const uploader = multer({
     storage:storage,
 })
@@ -24,22 +24,7 @@ router.post('/save' , UserController.save_user)
 router.get('/getprofile',JWT.verify_token , UserController.get_profile)
 router.post('/update' , JWT.verify_token, UserController.update_profile)
 router.get('/all_user' , JWT.verify_token , UserController.get_all_user)
-router.post('/upload_image' , uploader.single('image') , (req , res, next)=>{
-    try {
-        console.log(req.file);
-        
-        
-        console.log(req.body);
-
-        
-        
-        res.send({message:'done'}).status(200)
-        
-    } catch (error) {
-
-        res.send({message:error}).status(403)
-    }
-})
+router.post('/upload_image', JWT.verify_token , uploader.single('image') , UserController.upload_image)
 
 export default router;
 

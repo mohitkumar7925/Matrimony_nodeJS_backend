@@ -4,7 +4,9 @@ import User_Table, { User_Type } from "../models/User_Table";
 import { Model } from "sequelize";
 import { Op } from "sequelize";
 import path from "path";
-// Myy changes  2222////
+import dotenv from "dotenv";
+dotenv.config();
+
 export var UserController = {
     save_user: async (req: express.Request, res: express.Response, next: NextFunction) => {
         try {
@@ -103,9 +105,6 @@ export var UserController = {
 
     get_profile: async (req: express.Request, res: express.Response, next: NextFunction) => {
         try {
-
-           
-          
             console.log(req.body);
 
             var user_data = await User_Table.findOne({
@@ -161,7 +160,7 @@ export var UserController = {
                 religious_value,
                 about_me,
                 profile_pic,
-                JWT
+                JWT,
             } = user;
 
             let isupdated = await User_Table.update(
@@ -200,26 +199,21 @@ export var UserController = {
                     where: {
                         user_id: req.body.user_id,
                     },
-                },
+                }
             );
 
             console.log(isupdated);
-          
-            if(isupdated[0] > 0){
-                let updated_user = await User_Table.findOne({where:{user_id:req.body.user_id}})
+
+            if (isupdated[0] > 0) {
+                let updated_user = await User_Table.findOne({ where: { user_id: req.body.user_id } });
                 res.send({
                     data: updated_user,
                 }).status(200);
-            }
-            else{
+            } else {
                 res.send({
-                    data: 'Something went wrong',
+                    data: "Something went wrong",
                 }).status(403);
-
             }
-
-
-           
         } catch (error) {
             res.send({
                 message: error,
@@ -233,19 +227,16 @@ export var UserController = {
 
             var users_data = await User_Table.findAll({
                 where: {
-                    user_id:{
-                        [Op.not]:req.body.user_id
-                    }
+                    user_id: {
+                        [Op.not]: req.body.user_id,
+                    },
                 },
-                attributes:{
-                    exclude:['password']
-                }
+                attributes: {
+                    exclude: ["password"],
+                },
             });
 
             console.log(users_data);
-            
-
-
 
             res.send({
                 data: users_data,
@@ -257,12 +248,31 @@ export var UserController = {
             }).status(403);
         }
     },
-    upload_image:async (req: express.Request, res: express.Response, next: NextFunction) => {
-    
-    
-    
-    
-    }
+    upload_image: async (req: express.Request, res: express.Response, next: NextFunction) => {
+        try {
+            console.log(req.file);
+            console.log(req.body);
+            let path = process.env.BASE_URL + "profile_pic/" + req.file?.filename;
+console.log(path);
 
+            let is_updated = await User_Table.update(
+                {
+                    profile_pic: req.file?.filename,
+                },
+                {
+                    where: {
+                        user_id: req.body.user_id,
+                    },
+                }
+            );
 
+            if (is_updated[0] > 0) {
+                res.send({ message: "Successfully uploaded", url: path }).status(200);
+            } else {
+                res.send({ message: "Something Went Wrong" }).status(403);
+            }
+        } catch (error) {
+            res.send({ message: error }).status(403);
+        }
+    },
 };
